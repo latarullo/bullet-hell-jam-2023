@@ -7,7 +7,6 @@ public class FacePlayer : MonoBehaviour {
     private Transform player;
     private float rotationSpeed = 100;
 
-    // Update is called once per frame
     void Update() {
         if (player == null) {
             player = GameObject.FindGameObjectWithTag("Player").transform;

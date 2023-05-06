@@ -3,27 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TantoMovement : MonoBehaviour {
+
+    [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private bool movementBasedOnCamera = true;
+
     void Update() {
-        Vector3 movement = Vector3.zero;
+        Vector3 inputVector = Vector3.zero;
         if (Input.GetKey(KeyCode.W)) {
-            movement.z += 1;
+            inputVector.z += 1;
         }
         if (Input.GetKey(KeyCode.S)) {
-            movement.z -= 1;
+            inputVector.z -= 1;
         }
         if (Input.GetKey(KeyCode.A)) {
-            movement.x += -1;
+            inputVector.x += -1;
         }
         if (Input.GetKey(KeyCode.D)) {
-            movement.x += 1;
+            inputVector.x += 1;
         }
 
-        if (movement.magnitude != 0) {
-            Vector3 forwardVector = this.transform.forward * movement.z * Time.deltaTime;
-            Vector3 rightVector = this.transform.right * movement.x * Time.deltaTime;
+        if (inputVector.magnitude != 0) {
+            Vector3 forward;
+            Vector3 right;
+            if (movementBasedOnCamera) {
+                forward = Camera.main.transform.forward;
+                right = Camera.main.transform.right;
+            } else {
+                forward = this.transform.forward;
+                right = this.transform.right;
+            }
+
+            forward.y = 0;
+            right.y = 0;
+            forward = forward.normalized;
+            right = right.normalized;
+
+            Vector3 forwardVector = forward * inputVector.z;
+            Vector3 rightVector = right * inputVector.x;
+            
             Vector3 moveToVector = forwardVector + rightVector;
 
-            this.transform.Translate(moveToVector, Space.World);
+            this.transform.Translate(moveToVector * Time.deltaTime * moveSpeed, Space.World);
         }
     }
 }
