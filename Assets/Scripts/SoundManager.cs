@@ -11,7 +11,8 @@ public class SoundManager : MonoBehaviour {
     }
 
     [SerializeField] private AudioClip[] demonDie;
-    [SerializeField] private AudioClip pur;
+    [SerializeField] private AudioClip cannonShoot;
+    [SerializeField] private AudioClip rifleShoot;
 
     private float volume;
 
@@ -22,8 +23,11 @@ public class SoundManager : MonoBehaviour {
     public void PlayDemonDie(Transform transform) {
         this.PlaySound(demonDie, transform.position);
     }
-    public void PlayPurSound(Transform transform) {
-        this.PlaySound(pur, transform.position);
+    public void PlayCannonShoot(Transform transform) {
+        this.PlaySound(cannonShoot, transform.position);
+    }
+    public void PlayRifleShoot(Transform transform) {
+        this.PlaySound(rifleShoot, transform.position);
     }
 
 

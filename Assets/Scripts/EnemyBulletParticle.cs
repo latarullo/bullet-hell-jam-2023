@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletParticle : MonoBehaviour {
-
+public class EnemyBulletParticle : MonoBehaviour {
     [SerializeField] private ParticleSystem particleSystem;
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private float shootCooldownTimer = 1f;
@@ -11,24 +10,36 @@ public class BulletParticle : MonoBehaviour {
 
     List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
 
-    private void Update() {
-        shootCooldownTimer -= Time.deltaTime;
-        if (shootCooldownTimer < 0) {
-            particleSystem.Play();
-            shootCooldownTimer = shootCooldownMaxTimer;
-        }
+    private float lastShot;
+
+    private void Awake() {
+        lastShot = Time.time;
     }
 
+    //private void Update() {
+    //    shootCooldownTimer -= Time.deltaTime;
+    //    if (shootCooldownTimer < 0) {
+    //        particleSystem.Play();
+    //        shootCooldownTimer = shootCooldownMaxTimer;
+    //    }
+    //}
+
     private void OnParticleCollision(GameObject other) {
-        Debug.Log("OnParticleCollision");
+        Debug.Log("PLAYER HIT");
+
         int events = particleSystem.GetCollisionEvents(other, collisionEvents);
         foreach (ParticleCollisionEvent e in collisionEvents) {
             Instantiate(hitEffect, e.intersection, Quaternion.LookRotation(e.normal));
         }
 
-        if (other.TryGetComponent<Enemy>(out Enemy enemy)) {
-            Debug.Log("enemy.takeDamage");
-            enemy.TakeDamage(101);
+        Debug.Log("PLAYER TAKING DAMAGE");
+
+    }
+
+    public void Shoot() {
+        if (lastShot + shootCooldownTimer < Time.time) {
+            particleSystem.Play();
+            lastShot = Time.time;
         }
     }
 }

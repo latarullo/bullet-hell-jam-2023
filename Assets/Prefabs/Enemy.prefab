@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -7186468638886988470}
   - component: {fileID: 6008527085219682890}
   - component: {fileID: 9023866970652314289}
+  - component: {fileID: 2149911538409335104}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -48,6 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 100
   maxLife: 100
+  moveSpeed: 1
+  attackRange: 20
+  playerDetectionRange: 50
 --- !u!65 &6008527085219682890
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -81,3 +85,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d895d0b0e499c64a8e75b451e5a0109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &2149911538409335104
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5401234332088088206}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 4
+  m_CollisionDetection: 0

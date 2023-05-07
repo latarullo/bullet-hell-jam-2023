@@ -38,7 +38,7 @@ public class GameInput : MonoBehaviour {
             OnPlayerMove?.Invoke(this, new OnPlayerMoveEventArgs { inputVector = inputVector });
         }
 
-        if (Input.GetKey(KeyCode.Alpha1)) {
+        if (Input.GetKey(KeyCode.Q)) {
             OnCannonActivated?.Invoke(this, EventArgs.Empty);
         }
         if (Input.GetKey(KeyCode.Alpha2)) {
