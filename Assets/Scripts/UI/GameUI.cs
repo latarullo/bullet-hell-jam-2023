@@ -4,16 +4,20 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour {
 
+    public static GameUI Instance { get; private set; }
+
     [SerializeField] private TextMeshProUGUI lblEnemies;
     [SerializeField] private Image imgExperienceBar;
 
     private float currentExperience = 0;
 
+    private void Awake() {
+        Instance = this;
+    }
 
-    // Start is called before the first frame update
     void Start() {
         Enemy.OnEnemyKilled += Enemy_OnEnemyKilled;
-        DevilSpawner.Instance.OnEnemyCreated += Instance_OnEnemyCreated;
+        EnemySpawner.Instance.OnEnemyCreated += Instance_OnEnemyCreated;
     }
 
     private void Instance_OnEnemyCreated(object sender, System.EventArgs e) {
@@ -27,10 +31,18 @@ public class GameUI : MonoBehaviour {
     }
 
     private void UpdateUI() {
-        this.lblEnemies.text = DevilSpawner.Instance.GetEnemiesAlive().ToString();
+        this.lblEnemies.text = EnemySpawner.Instance.GetEnemiesAlive().ToString();
     }
 
     private void UpdateExperienceBar() {
         imgExperienceBar.GetComponent<Slider>().value = currentExperience / 100;
+    }
+
+    public void Hide() {
+        this.gameObject.SetActive(false);
+    }
+
+    public void Show() {
+        this.gameObject.SetActive(true);
     }
 }
