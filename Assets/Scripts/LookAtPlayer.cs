@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 
-public class FacePlayer : MonoBehaviour {
+public class LookAtPlayer : MonoBehaviour {
     private Transform player;
     private float rotationSpeed = 100;
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletParticle : MonoBehaviour {
 
     [SerializeField] private ParticleSystem particleSystem;
+    [SerializeField] private GameObject hitEffect;
     [SerializeField] private float shootCooldownTimer = 1f;
     [SerializeField] private float shootCooldownMaxTimer = 1f;
 
@@ -19,11 +20,14 @@ public class BulletParticle : MonoBehaviour {
     }
 
     private void OnParticleCollision(GameObject other) {
+        Debug.Log("OnParticleCollision");
         int events = particleSystem.GetCollisionEvents(other, collisionEvents);
         foreach (ParticleCollisionEvent e in collisionEvents) {
+            Instantiate(hitEffect, e.intersection, Quaternion.LookRotation(e.normal));
         }
 
-        if (other. TryGetComponent<Enemy>(out Enemy enemy)) {
+        if (other.TryGetComponent<Enemy>(out Enemy enemy)) {
+            Debug.Log("enemy.takeDamage");
             enemy.TakeDamage(1000);
         }
     }
