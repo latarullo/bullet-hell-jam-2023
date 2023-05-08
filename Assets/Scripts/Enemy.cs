@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour {
                     isAttacking = true;
 
                     if (IsRanged()) {
-                        particleShoot.GetComponent<EnemyBulletParticle>().Shoot();
+                        //particleShoot.GetComponent<EnemyBulletParticle>().Shoot();
                     } else {
                         getAnimator().SetTrigger("Attack");
                     }

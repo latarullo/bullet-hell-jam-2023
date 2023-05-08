@@ -11,13 +11,13 @@ public class BulletParticle : MonoBehaviour {
 
     List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
 
-    private void Update() {
-        shootCooldownTimer -= Time.deltaTime;
-        if (shootCooldownTimer < 0) {
-            particleSystem.Play();
-            shootCooldownTimer = shootCooldownMaxTimer;
-        }
-    }
+    //private void Update() {
+    //    shootCooldownTimer -= Time.deltaTime;
+    //    if (shootCooldownTimer < 0) {
+    //        particleSystem.Play();
+    //        shootCooldownTimer = shootCooldownMaxTimer;
+    //    }
+    //}
 
     private void OnParticleCollision(GameObject other) {
         Debug.Log("OnParticleCollision");
