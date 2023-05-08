@@ -56,7 +56,9 @@ public class GameUI : MonoBehaviour {
         this.lblEnemiesKilled.text = TantoMovement.Instance.GetEnemiesKilled().ToString();
         this.lblWaveTimer.text = Convert.ToInt32(GameManager.Instance.GetWaveTimeLeft()).ToString();
         this.lblCannonCount.text = GameManager.Instance.GetCannonCount().ToString();
-        this.imgHealthBar.GetComponent<Slider>().value = 1 - (TantoMovement.Instance.GetLife() / 100f);
+        if (imgHealthBar != null && imgHealthBar.IsActive()) {
+            this.imgHealthBar.fillAmount = TantoMovement.Instance.GetLife() / 100f;
+        }
     }
 
     public void Hide() {
