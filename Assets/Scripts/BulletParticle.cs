@@ -28,7 +28,7 @@ public class BulletParticle : MonoBehaviour {
 
         if (other.TryGetComponent<Enemy>(out Enemy enemy)) {
             Debug.Log("enemy.takeDamage");
-            enemy.TakeDamage(1000);
+            enemy.TakeDamage(101);
         }
     }
 }

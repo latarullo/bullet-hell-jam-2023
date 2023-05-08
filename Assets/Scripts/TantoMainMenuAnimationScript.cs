@@ -1,9 +1,12 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TantoMainMenuAnimationScript : MonoBehaviour {
     [SerializeField] private float animationWaitTime = 2f;
+    [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+
     private float firstAnimationTime = 5f;
 
     private Animator animator;
@@ -26,11 +29,12 @@ public class TantoMainMenuAnimationScript : MonoBehaviour {
 
     private void Animate(string animation) {
         if (animation == "CannonShoot") {
-            //TODO: stronger camera shaking
+            StartCoroutine(PlayCannonSound());
         }
 
-        if (animation == "CannonShoot") {
-            //TODO: weaker camera shaking
+        if (animation == "RifleShoot") {
+            StartCoroutine(PlayCannonSound());
+            
         }
 
         if (lastAnimation != null) {
@@ -38,5 +42,15 @@ public class TantoMainMenuAnimationScript : MonoBehaviour {
         }
         lastAnimation = animation;
         animator.SetTrigger(animation);
+    }
+
+    private IEnumerator PlayCannonSound() {
+        yield return new WaitForSeconds(1);
+        SoundManager.Instance.PlayCannonShoot(this.transform);
+    }
+
+    private IEnumerator PlayRifleSound() {
+        yield return new WaitForSeconds(1);
+        SoundManager.Instance.PlayRifleShoot(this.transform);
     }
 }

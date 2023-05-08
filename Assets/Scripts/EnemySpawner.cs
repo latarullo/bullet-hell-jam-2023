@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class EnemySpawner : MonoBehaviour {
 
@@ -121,12 +122,21 @@ public class EnemySpawner : MonoBehaviour {
             List<Transform> transforms = enemiesDictionary[key];
             foreach (Transform enemy in transforms) {
                 if (enemy.gameObject.activeSelf) {
-                    //Animator animator = enemy.GetComponent<Animator>();
-                    //Animator animator = enemy.GetComponent<AnimatorTriggerReset>().resetAll();
-                    //.SetTrigger("Stun");
+                    StartCoroutine(StunEnemy(2, enemy));
+                    
                 }
             }
         }
+    }
+
+    private IEnumerator StunEnemy(float duration, Transform enemy) {
+        Animator animator = enemy.GetComponent<Animator>();
+        animator.ResetTrigger("Attack");
+        animator.ResetTrigger("Die");
+        animator.ResetTrigger("Stun");
+
+        animator.SetTrigger("Stun");
+        yield return new WaitForSeconds(duration);
     }
 
     static T RandomEnumValue<T>() {
