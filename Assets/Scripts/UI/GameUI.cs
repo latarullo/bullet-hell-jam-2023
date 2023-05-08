@@ -27,6 +27,11 @@ public class GameUI : MonoBehaviour {
         EnemySpawner.Instance.OnEnemyCreated += EnemySpawner_OnEnemyCreated;
         TantoMovement.Instance.OnLifeChange += Player_OnLifeChange;
         GameManager.Instance.OnCannonCountChanged += GameManager_OnCannonCountChanged;
+        GameManager.Instance.OnWaveTimeUpdate += GameManager_OnWaveTimeUpdate;
+        this.UpdateUI();
+    }
+
+    private void GameManager_OnWaveTimeUpdate(object sender, EventArgs e) {
         this.UpdateUI();
     }
 

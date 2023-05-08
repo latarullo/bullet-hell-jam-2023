@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     public event EventHandler OnGamePaused;
     public event EventHandler OnGameUnpaused;
     public event EventHandler OnScoreUpdate;
+    public event EventHandler OnWaveTimeUpdate;
     public event EventHandler OnCannonCountChanged;
 
     public static GameManager Instance { get; private set; }
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour {
 
     private int cannonCount;
     private bool isCannonInCooldown = false;
+
+    private float accumulatedDeltaTime = 0;
 
     private void Awake() {
         Instance = this;
@@ -61,6 +64,11 @@ public class GameManager : MonoBehaviour {
     private void Update() {
         switch (state) {
             case State.GamePlaying:
+                accumulatedDeltaTime += Time.deltaTime;
+                if (accumulatedDeltaTime > 0) {
+                    accumulatedDeltaTime = 0;
+                    OnWaveTimeUpdate?.Invoke(this, EventArgs.Empty);
+                }
                 waveTimeLeft -= Time.deltaTime;
                 if (waveTimeLeft < 0) {
                     waveTimeLeft = waveTimeLimit;
