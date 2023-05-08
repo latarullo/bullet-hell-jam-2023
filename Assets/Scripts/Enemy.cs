@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
@@ -12,44 +11,55 @@ public class Enemy : MonoBehaviour {
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float attackRange = 20f;
     [SerializeField] private float playerDetectionRange = 50f;
+    [SerializeField] private EnemyType enemyType;
 
     [SerializeField] private GameObject particleShoot;
 
     private Transform player;
     private bool isAttacking = false;
     private float life = 100;
+    private bool isStunned = false;
+
+    public enum EnemyType {
+        Devil,
+        Goat,
+        Chonk,
+        Matriarch
+    }
 
     private void Start() {
         life = maxLife;
     }
 
     private void Update() {
+        if (isStunned || life < 0) {
+            return;
+        }
+
         if (player == null) {
             player = TantoMovement.Instance.gameObject.transform;
         }
 
-        if (life > 0) {
-            if (Vector3.Distance(player.position, this.transform.position) < playerDetectionRange) {
-                if (Vector3.Distance(player.position, this.transform.position) < attackRange) {
-                    if (!isAttacking) {
-                        isAttacking = true;
+        if (Vector3.Distance(player.position, this.transform.position) < playerDetectionRange) {
+            if (Vector3.Distance(player.position, this.transform.position) < attackRange) {
+                if (!isAttacking) {
+                    isAttacking = true;
 
-                        if (IsRanged()) {
-                            particleShoot.GetComponent<EnemyBulletParticle>().Shoot();
-                        } else {
-                            getAnimator().SetTrigger("Attack");
-                        }
+                    if (IsRanged()) {
+                        particleShoot.GetComponent<EnemyBulletParticle>().Shoot();
+                    } else {
+                        getAnimator().SetTrigger("Attack");
                     }
-                } else {
-                    isAttacking = false;
-                    getAnimator().ResetTrigger("Attack");
-                    Vector3 playerDir = player.position - this.transform.position;
-                    playerDir.y = 0;
-                    playerDir = playerDir.normalized;
-
-                    this.transform.position += playerDir * Time.deltaTime * moveSpeed;
-                    this.transform.position = new Vector3(this.transform.position.x, 0, this.transform.position.z);
                 }
+            } else {
+                isAttacking = false;
+                getAnimator().ResetTrigger("Attack");
+                Vector3 playerDir = player.position - this.transform.position;
+                playerDir.y = 0;
+                playerDir = playerDir.normalized;
+
+                this.transform.position += playerDir * Time.deltaTime * moveSpeed;
+                this.transform.position = new Vector3(this.transform.position.x, 0, this.transform.position.z);
             }
         }
 
@@ -63,7 +73,6 @@ public class Enemy : MonoBehaviour {
             animator.SetTrigger("Die");
             OnEnemyKilled?.Invoke(this, EventArgs.Empty);
             StartCoroutine(Hide());
-            //Destroy(this.gameObject);
         }
     }
 
@@ -77,7 +86,25 @@ public class Enemy : MonoBehaviour {
     }
 
     private IEnumerator Hide() {
-        SoundManager.Instance.PlayDemonDie(this.transform);
+        switch (this.enemyType) {
+            case EnemyType.Devil: {
+                    SoundManager.Instance.PlayDevilDie(this.transform);
+                    break;
+                }
+            case EnemyType.Goat: {
+                    SoundManager.Instance.PlayGoatDie(this.transform);
+                    break;
+                }
+            case EnemyType.Chonk: {
+                    SoundManager.Instance.PlayChonkDie(this.transform);
+                    break;
+                }
+            case EnemyType.Matriarch: {
+                    SoundManager.Instance.PlayMatriarchDie(this.transform);
+                    break;
+                }
+        }
+
         this.gameObject.GetComponent<BoxCollider>().enabled = false;
         yield return new WaitForSeconds(3);
         Animator animator = getAnimator();
@@ -95,5 +122,9 @@ public class Enemy : MonoBehaviour {
 
     private bool IsRanged() {
         return this.attackRange > 2;
+    }
+
+    public void SetStunEnemy(bool stun) {
+        this.isStunned = stun;
     }
 }

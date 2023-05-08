@@ -27,6 +27,8 @@ public class GameOverUI : MonoBehaviour {
     }
 
     public void Show() {
+        GameUI.Instance.Hide();
+
         this.gameObject.SetActive(true);
 
         int score = GameManager.Instance.GetScore();

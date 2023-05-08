@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cinemachine;
+using System.Collections;
 
 public class CameraSystem : MonoBehaviour {
 
@@ -43,5 +44,13 @@ public class CameraSystem : MonoBehaviour {
 
     public bool IsReverseZoomDirection() {
         return isZoomUpIn;
+    }
+
+    public IEnumerator ShakeCamera(float intensity, float time) {
+        SoundManager.Instance.PlayEarthquake(this.transform);
+        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
+        yield return new WaitForSecondsRealtime(time);
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0;
     }
 }

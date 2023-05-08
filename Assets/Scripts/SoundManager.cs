@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SoundManager : MonoBehaviour {
 
@@ -10,9 +11,16 @@ public class SoundManager : MonoBehaviour {
         volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, 1f);
     }
 
-    [SerializeField] private AudioClip[] demonDie;
+    [SerializeField] private AudioClip[] devilDie;
+    [SerializeField] private AudioClip[] goatDie;
+    [SerializeField] private AudioClip[] chonkDie;
+    [SerializeField] private AudioClip[] matriarchDie;
+    [SerializeField] private AudioClip[] boltImpact;
     [SerializeField] private AudioClip cannonShoot;
     [SerializeField] private AudioClip rifleShoot;
+    [SerializeField] private AudioClip earthquake;
+    [SerializeField] private AudioClip youWillDie;
+
 
     private float volume;
 
@@ -20,14 +28,35 @@ public class SoundManager : MonoBehaviour {
 
     }
 
-    public void PlayDemonDie(Transform transform) {
-        this.PlaySound(demonDie, transform.position);
+    public void PlayDevilDie(Transform transform) {
+        this.PlaySound(devilDie, transform.position);
+    }
+    public void PlayGoatDie(Transform transform) {
+        this.PlaySound(goatDie, transform.position);
+    }
+    public void PlayChonkDie(Transform transform) {
+        this.PlaySound(chonkDie, transform.position);
+    }
+    public void PlayMatriarchDie(Transform transform) {
+        this.PlaySound(matriarchDie, transform.position);
     }
     public void PlayCannonShoot(Transform transform) {
         this.PlaySound(cannonShoot, transform.position);
     }
     public void PlayRifleShoot(Transform transform) {
         this.PlaySound(rifleShoot, transform.position);
+    }
+
+    public void PlayBoltImpact(Vector3 position) {
+        this.PlaySound(boltImpact, position);
+    }
+
+    public void PlayEarthquake(Transform transform) {
+        this.PlaySound(earthquake, transform.position);
+    }
+
+    public void PlayYouWillDie(Transform transform) {
+        this.PlaySound(youWillDie, transform.position);
     }
 
 

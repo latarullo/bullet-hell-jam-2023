@@ -15,6 +15,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7186468638886988470, guid: 0c03128e3ea22e947ac453b8a05ca8cf,
         type: 3}
+      propertyPath: enemyType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7186468638886988470, guid: 0c03128e3ea22e947ac453b8a05ca8cf,
+        type: 3}
       propertyPath: attackRange
       value: 2
       objectReference: {fileID: 0}
@@ -205,7 +210,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3624672031451261619}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 75bf79f8876829a44bb388ccd90400a7, type: 3}
+  m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 5e28880f56df73f4da3fff6c80cf4eb8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0

@@ -23,6 +23,7 @@ public class BulletParticle : MonoBehaviour {
         Debug.Log("OnParticleCollision");
         int events = particleSystem.GetCollisionEvents(other, collisionEvents);
         foreach (ParticleCollisionEvent e in collisionEvents) {
+            SoundManager.Instance.PlayBoltImpact(e.intersection);
             Instantiate(hitEffect, e.intersection, Quaternion.LookRotation(e.normal));
         }
 

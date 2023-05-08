@@ -38,13 +38,13 @@ public class GameInput : MonoBehaviour {
             OnPlayerMove?.Invoke(this, new OnPlayerMoveEventArgs { inputVector = inputVector });
         }
 
-        if (Input.GetKey(KeyCode.Q)) {
+        if (Input.GetKeyDown(KeyCode.Q)) {
             OnCannonActivated?.Invoke(this, EventArgs.Empty);
         }
-        if (Input.GetKey(KeyCode.Alpha2)) {
+        if (Input.GetKeyDown(KeyCode.Alpha2)) {
             OnRifleActivated?.Invoke(this, EventArgs.Empty);
         }
-        if (Input.GetKey(KeyCode.Alpha3)) {
+        if (Input.GetKeyDown(KeyCode.Alpha3)) {
             OnSwordActivated?.Invoke(this, EventArgs.Empty);
         }
 

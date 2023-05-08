@@ -12722,6 +12722,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7186468638886988470, guid: 0c03128e3ea22e947ac453b8a05ca8cf,
         type: 3}
+      propertyPath: enemyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7186468638886988470, guid: 0c03128e3ea22e947ac453b8a05ca8cf,
+        type: 3}
       propertyPath: moveSpeed
       value: 2
       objectReference: {fileID: 0}

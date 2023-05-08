@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour {
     public event EventHandler OnGamePaused;
     public event EventHandler OnGameUnpaused;
     public event EventHandler OnScoreUpdate;
+    public event EventHandler OnCannonCountChanged;
 
     public static GameManager Instance { get; private set; }
 
@@ -19,7 +21,12 @@ public class GameManager : MonoBehaviour {
     private State previousState;
     private State state;
     private bool isPaused = false;
-    private float survivalScore = 0;
+
+    private float waveTimeLeft = 30;
+    private float waveTimeLimit = 30;
+
+    private int cannonCount;
+    private bool isCannonInCooldown = false;
 
     private void Awake() {
         Instance = this;
@@ -27,24 +34,43 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
+        cannonCount = 5;
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
         GameInput.Instance.OnCannonActivated += GameInput_OnCannonActivated;
+        GameUI.Instance.OnCannonCooldownOver += GameUI_OnCannonCooldownOver;
+    }
+
+    private void GameUI_OnCannonCooldownOver(object sender, EventArgs e) {
+        this.isCannonInCooldown = false;
     }
 
     private void GameInput_OnCannonActivated(object sender, EventArgs e) {
-        EnemySpawner.Instance.StunAllEnemies();
+        if (cannonCount > 0 && !isCannonInCooldown) {
+            cannonCount--;
+            StartCoroutine(GameUI.Instance.CoolDownCannon());
+            isCannonInCooldown = true;
+            OnCannonCountChanged?.Invoke(sender, e);
+            EnemySpawner.Instance.StunAllEnemies();
+        }
     }
 
     private void GameInput_OnPauseAction(object sender, EventArgs e) {
         PauseGame();
     }
 
-    [Obsolete]
     private void Update() {
         switch (state) {
             case State.GamePlaying:
-                survivalScore += Time.deltaTime;
+                waveTimeLeft -= Time.deltaTime;
+                if (waveTimeLeft < 0) {
+                    waveTimeLeft = waveTimeLimit;
+                    cannonCount+=2;
+                    StartCoroutine(EnemySpawner.Instance.SpawnEnemyWave());
+                }
                 OnScoreUpdate?.Invoke(this, EventArgs.Empty);
+                if (TantoMovement.Instance.GetLife() < 0) {
+                    this.state = State.GameOver;
+                }
                 break;
             case State.GamePaused:
                 break;
@@ -67,11 +93,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public int GetScore() {
-        return Convert.ToInt32(survivalScore);
-    }
-
-    public float GetSurvivalScore() {
-        return survivalScore;
+        return TantoMovement.Instance.GetEnemiesKilled();
     }
 
     public void PauseGame() {
@@ -89,4 +111,13 @@ public class GameManager : MonoBehaviour {
             GameUI.Instance.Show();
         }
     }
+
+    public float GetWaveTimeLeft() {
+        return waveTimeLeft;
+    }
+
+    public int GetCannonCount() {
+        return cannonCount;
+    }
+
 }

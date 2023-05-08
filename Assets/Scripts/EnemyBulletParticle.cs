@@ -25,15 +25,11 @@ public class EnemyBulletParticle : MonoBehaviour {
     //}
 
     private void OnParticleCollision(GameObject other) {
-        Debug.Log("PLAYER HIT");
-
         int events = particleSystem.GetCollisionEvents(other, collisionEvents);
         foreach (ParticleCollisionEvent e in collisionEvents) {
             Instantiate(hitEffect, e.intersection, Quaternion.LookRotation(e.normal));
+            TantoMovement.Instance.TakeDamage(1);
         }
-
-        Debug.Log("PLAYER TAKING DAMAGE");
-
     }
 
     public void Shoot() {
